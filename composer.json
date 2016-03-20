@@ -1,0 +1,24 @@
+{
+    "name": "korchasa/telegram-php",
+    "license": "MIT",
+	"authors": [
+		{
+			"name": "korchasa",
+			"email": "korchasa@gmail.com"
+		}
+	],
+    "require": {
+        "guzzlehttp/guzzle": "^6.1"
+    },
+	"suggest": {
+		"monolog/monolog": "Per request logging in specified file"
+	},
+    "autoload": {
+        "psr-4": {
+            "korchasa\\Telegram\\": "src/"
+        },
+	    "files": [
+			"src/helpers.php"
+	    ]
+    }
+}
