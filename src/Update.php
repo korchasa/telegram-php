@@ -15,4 +15,9 @@ class Update
             $this->message = new Message($data->message);
         }
     }
+
+    public function isText()
+    {
+        return (bool) $this->message->text;
+    }
 }

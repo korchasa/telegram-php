@@ -2,12 +2,19 @@
 
 class User
 {
+    /** @var integer */
     public $user_id;
+
+    /** @var string */
     public $first_name;
+
+    /** @var string */
     public $last_name;
+
+    /** @var string */
     public $username;
 
-    public function __construct(\stdClass $data = null)
+    public function __construct($data = null)
     {
         if ($data) {
             $this->user_id = get($data, 'id', get($data, 'user_id'));

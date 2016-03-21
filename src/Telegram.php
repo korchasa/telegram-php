@@ -30,6 +30,8 @@ class Telegram
      */
     public function __construct($token, array $guzzle_options = [], $log_file = null)
     {
+        assert(!empty($token));
+
         $this->token = $token;
 
         $guzzle_options = array_merge([
