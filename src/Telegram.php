@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use korchasa\Telegram\Payload\AbstractPayload;
 
 class Telegram
 {
@@ -30,7 +31,7 @@ class Telegram
      */
     public function __construct($token, array $guzzle_options = [], $log_file = null)
     {
-        assert(!empty($token));
+        assert((bool) $token);
 
         $this->token = $token;
 
@@ -39,7 +40,7 @@ class Telegram
             'http_errors' => true,
         ], $guzzle_options);
 
-        if ($log_file && class_exists('\Monolog\Logger')) {
+        if ($log_file) {
             $this->client = $this->createLoggable($log_file, $guzzle_options);
         } else {
             $this->client = new Client($guzzle_options);
@@ -84,33 +85,36 @@ class Telegram
 
 
     /**
-     * @param User                                                  $receiver
-     * @param string                                                $text
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|null $reply_markup
-     * @param integer                                               $reply_to_message_id
-     * @param bool|false                                            $disable_web_page_preview
+     * @param User    $receiver
+     * @param string  $text
+     * @param AbstractPayload $reply_markup
+     * @param integer $reply_to_message_id
+     * @param bool    $disable_web_page_preview
      *
-     * @return mixed|null
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\ClientException
      */
     public function sendMessage(
         User $receiver,
         $text,
-        $reply_markup = null,
+        AbstractPayload $reply_markup = null,
         $reply_to_message_id = null,
         $disable_web_page_preview = false
     ) {
         $this->last_message = $text;
         try {
-            return $this->request(
-                'sendMessage',
-                [
-                    'chat_id'                  => $receiver->user_id,
-                    'text'                     => $text,
-                    'disable_web_page_preview' => $disable_web_page_preview,
-                    'reply_to_message_id'      => $reply_to_message_id,
-                    'reply_markup'             => json_encode($reply_markup),
-                ]
-            );
+            $params = [
+                'chat_id'                  => $receiver->user_id,
+                'text'                     => $text,
+                'disable_web_page_preview' => $disable_web_page_preview,
+                'reply_to_message_id'      => $reply_to_message_id,
+            ];
+
+            if ($reply_markup) {
+                $params['reply_markup'] = $reply_markup->json();
+            }
+
+            return $this->request('sendMessage', $params);
         } catch (ClientException $e) {
             if (403 === $e->getResponse()->getStatusCode()) {
                 return null;
@@ -124,10 +128,11 @@ class Telegram
      * @param User                                                  $receiver
      * @param                                                       $latitude
      * @param                                                       $longitude
-     * @param ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply|null $reply_markup
+     * @param AbstractPayload                                       $reply_markup
      * @param integer                                               $reply_to_message_id
      *
-     * @return mixed|null
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\ClientException
      */
     public function sendLocation(
         User $receiver,
@@ -188,6 +193,7 @@ class Telegram
      * @param array $guzzle_options
      *
      * @return Client
+     * @throws \Exception
      */
     protected function createLoggable($log_file, array $guzzle_options = [])
     {
@@ -223,6 +229,15 @@ class Telegram
         );
     }
 
+    /**
+     * @deprecated Use sendByPostFormParams()
+     *
+     * @param       $uri
+     * @param array $params
+     * @param array $options
+     *
+     * @return mixed
+     */
     protected function sendByGet($uri, array $params = [], array $options = [])
     {
         return json_decode(
@@ -238,6 +253,15 @@ class Telegram
         );
     }
 
+    /**
+     * @deprecated Use sendByPostFormParams()
+     *
+     * @param       $uri
+     * @param array $params
+     * @param array $options
+     *
+     * @return mixed
+     */
     protected function sendByPostMultipart($uri, array $params = [], array $options = [])
     {
         $multipart_params = [];

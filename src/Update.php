@@ -1,5 +1,7 @@
 <?php namespace korchasa\Telegram;
 
+use korchasa\Telegram\Message\Message;
+
 class Update
 {
     public $update_id;

@@ -1,6 +1,8 @@
-<?php namespace korchasa\Telegram;
+<?php namespace korchasa\Telegram\Payload;
 
-class ReplyKeyboardHide
+use korchasa\Telegram\Payload;
+
+class HideKeyboard extends AbstractPayload
 {
     /**
      * Requests clients to hide the custom keyboard

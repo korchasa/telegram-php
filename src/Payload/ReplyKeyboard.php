@@ -1,13 +1,15 @@
-<?php namespace korchasa\Telegram;
+<?php namespace korchasa\Telegram\Payload;
 
-class ReplyKeyboardMarkup
+use korchasa\Telegram\Payload;
+
+class ReplyKeyboard extends AbstractPayload
 {
     /**
      * Array of button rows, each represented by an Array of Strings
      *
      * @var string[][]
      */
-    public $keyboard = [];
+    public $keyboard;
 
     /**
      * Requests clients to resize the keyboard vertically for optimal fit (e.g., make the
@@ -16,14 +18,14 @@ class ReplyKeyboardMarkup
      *
      * @var bool
      */
-    public $resize_keyboard = true;
+    public $resize_keyboard;
 
     /**
      * Requests clients to hide the keyboard as soon as it's been used.
      *
      * @var bool
      */
-    public $one_time_keyboard = false;
+    public $one_time_keyboard;
 
     /**
      * Use this parameter if you want to show the keyboard to specific users only. Targets:
@@ -41,16 +43,9 @@ class ReplyKeyboardMarkup
 
     public function __construct($data)
     {
-        if ($data) {
-            if (property_exists($data, 'keyboard')) {
-                $this->keyboard = $data->keyboard;
-            }
-            if (property_exists($data, 'resize_keyboard')) {
-                $this->resize_keyboard = $data->resize_keyboard;
-            }
-            if (property_exists($data, 'one_time_keyboard')) {
-                $this->one_time_keyboard = $data->one_time_keyboard;
-            }
-        }
+        $this->keyboard = get($data, 'keyboard', []);
+        $this->resize_keyboard = get($data, 'resize_keyboard', true);
+        $this->one_time_keyboard = get($data, 'one_time_keyboard', true);
+        $this->selective = get($data, 'selective', false);
     }
 }

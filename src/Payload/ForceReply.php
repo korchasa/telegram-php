@@ -1,6 +1,8 @@
-<?php namespace korchasa\Telegram;
+<?php namespace korchasa\Telegram\Payload;
 
-class ForceReply
+use korchasa\Telegram\Payload;
+
+class ForceReply extends AbstractPayload
 {
     /**
      * Shows reply interface to the user, as if they manually selected the bot‘s message and tapped ’Reply'
