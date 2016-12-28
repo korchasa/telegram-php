@@ -1,6 +1,14 @@
 language: php
+
 php:
   - '5.6'
   - '7.0'
   - '7.1'
   - nightly
+
+before_install:
+  - composer self-update
+
+install: composer update --prefer-source $COMPOSER_FLAGS
+
+script: phpunit --coverage-text
