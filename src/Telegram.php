@@ -2,7 +2,9 @@
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use korchasa\Telegram\Payload\AbstractPayload;
+use korchasa\Telegram\Structs\Payload\AbstractPayload;
+use korchasa\Telegram\Structs\Update;
+use korchasa\Telegram\Structs\Chat;
 
 class Telegram
 {
@@ -64,7 +66,7 @@ class Telegram
      *
      * @return Update[]
      */
-    public function getUpdates($offset = null, $limit = null, $timeout = 0)
+    public function getUpdates($offset = null, $limit = null, $timeout = 10)
     {
         $response = $this->request(
             'getUpdates',
@@ -77,7 +79,7 @@ class Telegram
 
         $updates = [];
         foreach ($response->result as $update_data) {
-            $updates[] = new Update($update_data);
+            $updates[] = new Update(new Unstructured($update_data));
         }
 
         return $updates;
@@ -85,7 +87,7 @@ class Telegram
 
 
     /**
-     * @param User    $receiver
+     * @param Chat|integer    $receiver
      * @param string  $text
      * @param AbstractPayload $reply_markup
      * @param integer $reply_to_message_id
@@ -95,23 +97,25 @@ class Telegram
      * @throws \GuzzleHttp\Exception\ClientException
      */
     public function sendMessage(
-        User $receiver,
+        $chat,
         $text,
         AbstractPayload $reply_markup = null,
         $reply_to_message_id = null,
-        $disable_web_page_preview = false
+        $disable_web_page_preview = false,
+        $parse_mode = 'html'
     ) {
         $this->last_message = $text;
         try {
             $params = [
-                'chat_id'                  => $receiver->user_id,
+                'chat_id'                  => is_object($chat) ? $chat->id : $chat,
                 'text'                     => $text,
                 'disable_web_page_preview' => $disable_web_page_preview,
                 'reply_to_message_id'      => $reply_to_message_id,
+                'parse_mode'               => $parse_mode
             ];
 
             if ($reply_markup) {
-                $params['reply_markup'] = $reply_markup->json();
+                $params['reply_markup'] = $reply_markup->export();
             }
 
             return $this->request('sendMessage', $params);
@@ -185,7 +189,7 @@ class Telegram
 
     public function request($uri, array $params = [], array $options = [])
     {
-        return $this->sendByPostFormParams($uri, $params, $options);
+        return $this->sendByPostWithJsonInBody($uri, $params, $options);
     }
 
     /**
@@ -238,47 +242,15 @@ class Telegram
      *
      * @return mixed
      */
-    protected function sendByGet($uri, array $params = [], array $options = [])
+    protected function sendByPostWithJsonInBody($uri, array $params = [], array $options = [])
     {
-        return json_decode(
-            $this->client->get(
-                $uri,
-                array_merge(
-                    $options,
-                    [
-                        'query' => $params,
-                    ]
-                )
-            )->getBody()
-        );
-    }
-
-    /**
-     * @deprecated Use sendByPostFormParams()
-     *
-     * @param       $uri
-     * @param array $params
-     * @param array $options
-     *
-     * @return mixed
-     */
-    protected function sendByPostMultipart($uri, array $params = [], array $options = [])
-    {
-        $multipart_params = [];
-        foreach ($params as $key => $value) {
-            $multipart_params[] = [
-                'name'     => $key,
-                'contents' => !is_object($value) ? (string)$value : json_encode($value),
-            ];
-        }
-
         return json_decode(
             $this->client->post(
                 $uri,
                 array_merge(
                     $options,
                     [
-                        'multipart' => $multipart_params,
+                        'json' => $params,
                     ]
                 )
             )->getBody()

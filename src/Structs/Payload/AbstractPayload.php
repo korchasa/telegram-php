@@ -1,11 +1,11 @@
-<?php namespace korchasa\Telegram\Payload;
+<?php namespace korchasa\Telegram\Structs\Payload;
 
 abstract class AbstractPayload
 {
-    public function json()
+    public function export()
     {
         $array = json_decode(json_encode($this), true);
-        return json_encode($this->arrayFilterNulls($array));
+        return $this->arrayFilterNulls($array);
     }
 
     protected function arrayFilterNulls($array)

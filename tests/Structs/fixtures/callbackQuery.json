@@ -1,0 +1,31 @@
+{
+    "update_id": 877959673,
+    "callback_query": {
+        "id": "4789318373014626",
+        "from": {
+            "id": 1115000,
+            "first_name": "Станислав",
+            "last_name": "Корчагин",
+            "username": "korchasa"
+        },
+        "message": {
+            "message_id": 960,
+            "from": {
+                "id": 324885257,
+                "first_name": "Jarvis",
+                "username": "JarvisSecretaryBot"
+            },
+            "chat": {
+                "id": 1115000,
+                "first_name": "Станислав",
+                "last_name": "Корчагин",
+                "username": "korchasa",
+                "type": "private"
+            },
+            "date": 1482802884,
+            "text": "Пора"
+        },
+        "chat_instance": "3954959071634340933",
+        "data": "upcoming"
+    }
+}

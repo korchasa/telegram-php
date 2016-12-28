@@ -12,7 +12,9 @@
     },
 	"require-dev": {
 		"phpunit/phpunit": "^5.3",
-        "monolog/monolog": "^1.19"
+        "monolog/monolog": "^1.19",
+        "korchasa/json_popo": "dev-master",
+        "larapack/dd": "^1.1"
 	},
 	"suggest": {
 		"monolog/monolog": "Per request logging in specified file"

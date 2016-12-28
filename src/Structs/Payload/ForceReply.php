@@ -1,4 +1,4 @@
-<?php namespace korchasa\Telegram\Payload;
+<?php namespace korchasa\Telegram\Structs\Payload;
 
 use korchasa\Telegram\Payload;
 

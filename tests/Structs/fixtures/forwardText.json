@@ -1,0 +1,27 @@
+{
+    "update_id": 877959686,
+    "message": {
+        "message_id": 1024,
+        "from": {
+            "id": 1115100,
+            "first_name": "Станислав",
+            "last_name": "Корчагин",
+            "username": "korchasa"
+        },
+        "chat": {
+            "id": 1115100,
+            "first_name": "Станислав",
+            "last_name": "Корчагин",
+            "username": "korchasa",
+            "type": "private"
+        },
+        "date": 1482840687,
+        "forward_from": {
+            "id": 101821145,
+            "first_name": "Botan",
+            "username": "Botaniobot"
+        },
+        "forward_date": 1482002845,
+        "text": "Please choose an action from keyboard below"
+    }
+}

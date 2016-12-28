@@ -1,0 +1,41 @@
+{
+    "update_id": 877959685,
+    "message": {
+        "message_id": 1023,
+        "from": {
+            "id": 1115100,
+            "first_name": "Станислав",
+            "last_name": "Корчагин",
+            "username": "korchasa"
+        },
+        "chat": {
+            "id": 1115100,
+            "first_name": "Станислав",
+            "last_name": "Корчагин",
+            "username": "korchasa",
+            "type": "private"
+        },
+        "date": 1482840482,
+        "photo": [{
+            "file_id": "AgADAgAD4KcxG9wDEQABtmozwkB826BHFUsNAATXgrStV3EZ6bnmAgABAg",
+            "file_size": 857,
+            "width": 67,
+            "height": 90
+        }, {
+            "file_id": "AgADAgAD4KcxG9wDEQABtmozwkB826BHFUsNAAQYCWxp3z7ePrjmAgABAg",
+            "file_size": 10005,
+            "width": 240,
+            "height": 320
+        }, {
+            "file_id": "AgADAgAD4KcxG9wDEQABtmozwkB826BHFUsNAASi-QSKdmCxUrrmAgABAg",
+            "file_size": 46108,
+            "width": 600,
+            "height": 800
+        }, {
+            "file_id": "AgADAgAD4KcxG9wDEQABtmozwkB826BHFUsNAAST_dE-N52_q7fmAgABAg",
+            "file_size": 80474,
+            "width": 960,
+            "height": 1280
+        }]
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "update_id": 877959680,
+    "message": {
+        "message_id": 1007,
+        "from": {
+            "id": 1115100,
+            "first_name": "Станислав",
+            "last_name": "Корчагин",
+            "username": "korchasa"
+        },
+        "chat": {
+            "id": 1115100,
+            "first_name": "Станислав",
+            "last_name": "Корчагин",
+            "username": "korchasa",
+            "type": "private"
+        },
+        "date": 1482836915,
+        "reply_to_message": {
+            "message_id": 1006,
+            "from": {
+                "id": 324885257,
+                "first_name": "Jarvis",
+                "username": "JarvisSecretaryBot"
+            },
+            "chat": {
+                "id": 1115100,
+                "first_name": "Станислав",
+                "last_name": "Корчагин",
+                "username": "korchasa",
+                "type": "private"
+            },
+            "date": 1482836907,
+            "text": "Пора"
+        },
+        "text": "Нигилист"
+    }
+}

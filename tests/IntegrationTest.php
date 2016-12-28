@@ -1,14 +1,14 @@
-<?php namespace korchasa\Telegram\Test;
+<?php namespace korchasa\Telegram\Tests;
 
-use korchasa\Telegram\Payload\InlineButton;
-use korchasa\Telegram\Payload\InlineKeyboard;
-use korchasa\Telegram\Payload\ReplyButton;
-use korchasa\Telegram\Payload\HideKeyboard;
-use korchasa\Telegram\Payload\ReplyKeyboard;
-use korchasa\Telegram\Message\Message;
+use korchasa\Telegram\Structs\Payload\InlineButton;
+use korchasa\Telegram\Structs\Payload\InlineKeyboard;
+use korchasa\Telegram\Structs\Payload\ReplyButton;
+use korchasa\Telegram\Structs\Payload\HideKeyboard;
+use korchasa\Telegram\Structs\Payload\ReplyKeyboard;
+use korchasa\Telegram\Structs\Message;
 use korchasa\Telegram\Telegram;
-use korchasa\Telegram\Update;
-use korchasa\Telegram\User;
+use korchasa\Telegram\Structs\Update;
+use korchasa\Telegram\Structs\User;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,16 +22,13 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $token = getenv('TOKEN');
         $user_id = getenv('USER_ID');
         if (!$token || !$user_id) {
-            die('Usage: TOKEN=12345678:SOMELETTERS USER_ID=1234567 phpunit');
+            $this->markTestSkipped('Usage: TOKEN=12345678:SOMELETTERS USER_ID=1234567 phpunit');
         }
 
         $this->telegram = new Telegram($token);
-        $this->user = new User([
-            'user_id' => $user_id,
-            'first_name' => 'first_name',
-            'last_name' => 'last_name',
-            'username' => 'username',
-        ]);
+        $this->user = new User();
+        $this->user->user_id = $user_id;
+        $this->user->first_name = 'first_name';
     }
 
     public function testGetUpdates()
@@ -66,19 +63,11 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             $this->user,
             'reply keyboard',
             new ReplyKeyboard([
-                    'keyboard' => [
-                        [ 'foo', 'bar' ],
-                        [
-                            new ReplyButton([
-                                'text'            => 'request contact',
-                                'request_contact' => true
-                            ]),
-                            new ReplyButton([
-                                'text'             => 'request location',
-                                'request_location' => true
-                            ]),
-                        ],
-                    ]
+                    [ 'foo', 'bar' ],
+                    [
+                        new ReplyButton('request contact', true),
+                        new ReplyButton('request location', false, true),
+                    ],
                 ]
             )
         );
@@ -105,26 +94,11 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             $this->user,
             'inline keyboard',
             new InlineKeyboard([
-                    'inline_keyboard' => [
-                        [
-                            new InlineButton([
-                                'text' => 'url',
-                                'url' => 'https://google.com/',
-                            ]),
-                            new InlineButton([
-                                'text' => 'callback_data',
-                                'callback_data' => 'foo',
-                            ]),
-                        ],
-                        [
-                            new InlineButton([
-                                'text' => 'switch_inline_query',
-                                'switch_inline_query' => 'switch_inline_query text',
-                            ]),
-                        ]
-                    ]
+                [
+                    new InlineButton('url', null, 'https://google.com/'),
+                    new InlineButton('callback_data', 'foo'),
                 ]
-            )
+            ])
         );
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace korchasa\Telegram\Payload;
+<?php namespace korchasa\Telegram\Structs\Payload;
 
 use korchasa\Telegram\Payload;
 
@@ -41,11 +41,11 @@ class ReplyKeyboard extends AbstractPayload
      */
     public $selective = false;
 
-    public function __construct($data)
+    public function __construct($keyboard = [], $resize_keyboard = true, $one_time_keyboard = true, $selective = false)
     {
-        $this->keyboard = get($data, 'keyboard', []);
-        $this->resize_keyboard = get($data, 'resize_keyboard', true);
-        $this->one_time_keyboard = get($data, 'one_time_keyboard', true);
-        $this->selective = get($data, 'selective', false);
+        $this->keyboard = $keyboard;
+        $this->resize_keyboard = $resize_keyboard;
+        $this->one_time_keyboard = $one_time_keyboard;
+        $this->selective = $selective;
     }
 }

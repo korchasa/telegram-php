@@ -1,4 +1,4 @@
-<?php namespace korchasa\Telegram\Payload;
+<?php namespace korchasa\Telegram\Structs\Payload;
 
 use korchasa\Telegram\Payload;
 
@@ -11,8 +11,8 @@ class InlineKeyboard extends AbstractPayload
      */
     public $inline_keyboard = [];
 
-    public function __construct($data)
+    public function __construct($arrayOfRowsOfButtons)
     {
-        $this->inline_keyboard = get($data, 'inline_keyboard', []);
+        $this->inline_keyboard = $arrayOfRowsOfButtons;
     }
 }
