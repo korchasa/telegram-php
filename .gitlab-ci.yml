@@ -2,7 +2,7 @@ image: php:7-cli
 
 before_script:
   - apt-get update -yqq
-  - apt-get install git -yqq
+  - apt-get install git unzip -yqq
   - curl --silent --show-error https://getcomposer.org/installer | php
   - php composer.phar install
 
