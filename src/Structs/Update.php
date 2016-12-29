@@ -60,6 +60,11 @@ class Update
         return (bool) $this->callback_query;
     }
 
+    public function chat()
+    {
+        return $this->message()->chat;
+    }
+
     public function message()
     {
         if ($this->message) {

@@ -8,12 +8,14 @@ use korchasa\Telegram\Structs\Chat;
 
 class Telegram
 {
-    /**
-     * @var Client
-     */
+    /** @var Client */
     protected $client;
+    /** @var Message */
     public $last_message;
+    /** @var string */
     public $token;
+    /** @var Chat */
+    public $current_chat;
 
     const TYPING = 'typing';
     const UPLOAD_PHOTO = 'upload_photo';
@@ -85,6 +87,23 @@ class Telegram
         return $updates;
     }
 
+    public function loop($update_handler, $iterations = null)
+    {
+        if (!is_callable($update_handler)) {
+            throw new InvalidArgumentException('Param #1 must be a callable');
+        }
+
+        $update = (object) [
+            'update_id' => 0
+        ];
+
+        while(0 !== $iterations--) {
+            foreach ($this->getUpdates($update->update_id + 1) as $update) {
+                $update_handler($update);
+            }
+        }
+    }
+
 
     /**
      * @param Chat|integer    $receiver
@@ -139,7 +158,7 @@ class Telegram
      * @throws \GuzzleHttp\Exception\ClientException
      */
     public function sendLocation(
-        User $receiver,
+        Chat $chat,
         $latitude,
         $longitude,
         $reply_markup = null,
@@ -149,7 +168,7 @@ class Telegram
             return $this->request(
                 'sendLocation',
                 [
-                    'chat_id'             => $receiver->user_id,
+                    'chat_id'             => $chat->id,
                     'latitude'            => $latitude,
                     'longitude'           => $longitude,
                     'reply_to_message_id' => $reply_to_message_id,
@@ -165,23 +184,23 @@ class Telegram
         }
     }
 
-    public function sendTypingAction(User $receiver)
+    public function sendTypingAction(Chat $chat)
     {
-        return $this->sendChatAction($receiver, self::TYPING);
+        return $this->sendChatAction($chat, self::TYPING);
     }
 
     /**
-     * @param User $receiver
+     * @param Chat $chat
      * @param      $action
      *
      * @return mixed
      */
-    public function sendChatAction(User $receiver, $action)
+    public function sendChatAction(Chat $chat, $action)
     {
         return $this->request(
             'sendChatAction',
             [
-                'chat_id' => $receiver->user_id,
+                'chat_id' => $chat->id,
                 'action'  => $action,
             ]
         );
