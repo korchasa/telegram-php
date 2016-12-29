@@ -8,6 +8,7 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Exception\RequestException;
 use korchasa\Telegram\Telegram;
+use korchasa\Telegram\Structs\Update;
 
 class TelegramTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,7 +22,9 @@ class TelegramTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $updates_ids = [];
-        $telegram->loop(function($update) use(&$updates_ids) {
+        $telegram->loop(function($telegram, $update) use(&$updates_ids) {
+            $this->assertInstanceOf(Telegram::class, $telegram);
+            $this->assertInstanceOf(Update::class, $update);
             $updates_ids[] = $update->update_id;
         }, 4);
 
@@ -31,7 +34,7 @@ class TelegramTest extends \PHPUnit_Framework_TestCase
     protected function telegram($responses)
     {
         $stack = HandlerStack::create(new MockHandler($responses));
-        return new Telegram('nothing', ['handler' => $stack]);
+        return new Telegram('nothing', null, ['handler' => $stack]);
     }
 
     protected function responseWithOneUpdate($update_id)

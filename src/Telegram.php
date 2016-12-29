@@ -33,9 +33,11 @@ class Telegram
      * @param array $guzzle_options
      * @param null  $log_file
      */
-    public function __construct($token, array $guzzle_options = [], $log_file = null)
+    public function __construct($token, $log_file = null, array $guzzle_options = [])
     {
-        assert((bool) $token);
+        if (!$token) {
+            throw new InvalidArgumentException('Param #0 must be a telegram bot token');
+        }
 
         $this->token = $token;
 
@@ -53,12 +55,7 @@ class Telegram
 
     public function setWebhook($url)
     {
-        return $this->request(
-            'setWebhook',
-            [
-                'url' => $url,
-            ]
-        );
+        return $this->request('setWebhook', [ 'url' => $url ]);
     }
 
     /**
@@ -90,7 +87,7 @@ class Telegram
     public function loop($update_handler, $iterations = null)
     {
         if (!is_callable($update_handler)) {
-            throw new InvalidArgumentException('Param #1 must be a callable');
+            throw new InvalidArgumentException('Param #0 must be a callable');
         }
 
         $update = (object) [
@@ -99,7 +96,7 @@ class Telegram
 
         while(0 !== $iterations--) {
             foreach ($this->getUpdates($update->update_id + 1) as $update) {
-                $update_handler($update);
+                $update_handler($this, $update);
             }
         }
     }
