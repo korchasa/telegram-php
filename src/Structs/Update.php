@@ -1,6 +1,8 @@
 <?php namespace korchasa\Telegram\Structs;
 
 use korchasa\Telegram\Unstructured;
+use korchasa\Telegram\Telegram;
+use korchasa\Telegram\Structs\Payload\AbstractPayload;
 
 class Update
 {
@@ -32,6 +34,11 @@ class Update
      * @var CallbackQuery|null
      */
     public $callback_query;
+
+    /**
+     * @var Telegram|null
+     */
+    public $telegram;
 
     public function __construct(Unstructured $std = null)
     {
@@ -72,5 +79,37 @@ class Update
         } elseif ($this->callback_query) {
             return $this->callback_query->message;
         }
+    }
+
+    public function replyMessage(
+        $text,
+        AbstractPayload $reply_markup = null,
+        $reply_to_message_id = null,
+        $disable_web_page_preview = false,
+        $parse_mode = 'html')
+    {
+        return $this->telegram->sendMessage(
+            $this->chat(),
+            $text,
+            $reply_markup,
+            $reply_to_message_id,
+            $disable_web_page_preview,
+            $parse_mode
+        );
+    }
+
+    public function replyLocation(
+        $latitude,
+        $longitude,
+        $reply_markup = null,
+        $reply_to_message_id = null
+    ) {
+        return $this->telegram->sendLocation(
+            $this->chat(),
+            $latitude,
+            $longitude,
+            $reply_markup,
+            $reply_to_message_id
+        );
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace korchasa\Telegram;
 
+use Webmozart\Assert\Assert;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use korchasa\Telegram\Structs\Payload\AbstractPayload;
@@ -96,7 +97,8 @@ class Telegram
 
         while(0 !== $iterations--) {
             foreach ($this->getUpdates($update->update_id + 1) as $update) {
-                $update_handler($this, $update);
+                $update->telegram = $this;
+                $update_handler($update);
             }
         }
     }
@@ -113,13 +115,14 @@ class Telegram
      * @throws \GuzzleHttp\Exception\ClientException
      */
     public function sendMessage(
-        $chat,
+        Chat $chat,
         $text,
         AbstractPayload $reply_markup = null,
         $reply_to_message_id = null,
         $disable_web_page_preview = false,
         $parse_mode = 'html'
     ) {
+        Assert::notNull($chat);
         $this->last_message = $text;
         try {
             $params = [

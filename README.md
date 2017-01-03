@@ -8,7 +8,7 @@ Lightweight wrapper for [Telegram Bot API](https://core.telegram.org/bots/api).
 
 composer require korchasa/telegram-php
 
-## Basic usage 
+## Basic usage
 Webhook:
 ```php
 <?php
@@ -31,8 +31,8 @@ $telegram->sendMessage($chat, 'some_text');
 Infinite loop:
 ```php
 $telegram = new Telegram('bot123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11', 'telegram.log');
-$telegram->loop(function($telegram, $update) {
-  $telegram->sendMessage($update->message()->chat, 'Red or blue?', new InlineKeyboard([
+$telegram->loop(function($update) {
+  $update->replyMessage('Red or blue?', new InlineKeyboard([
     new InlineButton('Foo', 'some data 1'),
     new InlineButton('Bar', 'some data 2'),
     new InlineButton('Wtf?', null, 'https://en.wikipedia.org/wiki/Foobar'),

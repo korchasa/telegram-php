@@ -22,9 +22,9 @@ class TelegramTest extends \PHPUnit_Framework_TestCase
         ]);
 
         $updates_ids = [];
-        $telegram->loop(function($telegram, $update) use(&$updates_ids) {
-            $this->assertInstanceOf(Telegram::class, $telegram);
+        $telegram->loop(function($update) use(&$updates_ids) {
             $this->assertInstanceOf(Update::class, $update);
+            $this->assertNotNull($update->telegram);
             $updates_ids[] = $update->update_id;
         }, 4);
 

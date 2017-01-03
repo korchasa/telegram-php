@@ -32,7 +32,7 @@ class Chat
      */
     public $type;
 
-    public function __construct(Unstructured $std)
+    public function __construct(Unstructured $std = null)
     {
         if ($std) {
             $this->id = $std->scalar('id');
