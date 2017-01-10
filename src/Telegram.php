@@ -85,7 +85,7 @@ class Telegram
         return $updates;
     }
 
-    public function loop($update_handler, $iterations = null)
+    public function loop($update_handler, $tick_handler = null, $iterations = null)
     {
         if (!is_callable($update_handler)) {
             throw new InvalidArgumentException('Param #0 must be a callable');
@@ -99,6 +99,9 @@ class Telegram
             foreach ($this->getUpdates($update->update_id + 1) as $update) {
                 $update->telegram = $this;
                 $update_handler($update);
+            }
+            if ($tick_handler) {
+                $tick_handler($this);
             }
         }
     }
@@ -120,7 +123,8 @@ class Telegram
         AbstractPayload $reply_markup = null,
         $reply_to_message_id = null,
         $disable_web_page_preview = false,
-        $parse_mode = 'html'
+        $parse_mode = 'html',
+        $disable_notifications = true
     ) {
         Assert::notNull($chat);
         $this->last_message = $text;
@@ -130,7 +134,8 @@ class Telegram
                 'text'                     => $text,
                 'disable_web_page_preview' => $disable_web_page_preview,
                 'reply_to_message_id'      => $reply_to_message_id,
-                'parse_mode'               => $parse_mode
+                'parse_mode'               => $parse_mode,
+                'disable_notifications'    => $disable_notifications,
             ];
 
             if ($reply_markup) {
@@ -202,6 +207,25 @@ class Telegram
             [
                 'chat_id' => $chat->id,
                 'action'  => $action,
+            ]
+        );
+    }
+
+    public function sendAnswerForCallbackQuery(
+        $callback_query_id,
+        $text,
+        $show_alert = false,
+        $url = null,
+        $cache_time = 0
+    ) {
+        return $this->request(
+            'answerCallbackQuery',
+            [
+                'callback_query_id' => $callback_query_id,
+                'text'              => $text,
+                'show_alert'        => $show_alert,
+                'url'               => $url,
+                'cache_time'        => $cache_time
             ]
         );
     }

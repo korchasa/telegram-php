@@ -54,7 +54,11 @@ class Update
 
     public function isText()
     {
-        return (bool) $this->message->text;
+        if (!$this->message && !$this->edited_message) {
+            return false;
+        }
+
+        return (bool) $this->message()->text;
     }
 
     public function isReply()
@@ -78,7 +82,11 @@ class Update
             return $this->message;
         } elseif ($this->callback_query) {
             return $this->callback_query->message;
+        } elseif ($this->edited_message) {
+            return $this->edited_message;
         }
+
+        throw new \LogicException("Can't find any message in update");
     }
 
     public function replyMessage(
@@ -86,15 +94,16 @@ class Update
         AbstractPayload $reply_markup = null,
         $reply_to_message_id = null,
         $disable_web_page_preview = false,
-        $parse_mode = 'html')
-    {
+        $parse_mode = 'html'
+    ) {
         return $this->telegram->sendMessage(
             $this->chat(),
             $text,
             $reply_markup,
             $reply_to_message_id,
             $disable_web_page_preview,
-            $parse_mode
+            $parse_mode,
+            true
         );
     }
 
@@ -110,6 +119,25 @@ class Update
             $longitude,
             $reply_markup,
             $reply_to_message_id
+        );
+    }
+
+    public function replyCallbackQuery(
+        $text,
+        $show_alert = false,
+        $url = null,
+        $cache_time = 0
+    ) {
+        if (!$this->callback_query) {
+            throw new \LogicException("Update not a callbackQuery");
+        }
+
+        return $this->telegram->sendAnswerForCallbackQuery(
+            $this->callback_query->id,
+            $text,
+            $show_alert,
+            $url,
+            $cache_time
         );
     }
 }
