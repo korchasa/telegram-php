@@ -85,7 +85,7 @@ class Telegram
         return $updates;
     }
 
-    public function loop($update_handler, $tick_handler = null, $iterations = null)
+    public function loop($update_handler, $iterations = null)
     {
         if (!is_callable($update_handler)) {
             throw new InvalidArgumentException('Param #0 must be a callable');
@@ -99,9 +99,6 @@ class Telegram
             foreach ($this->getUpdates($update->update_id + 1) as $update) {
                 $update->telegram = $this;
                 $update_handler($update);
-            }
-            if ($tick_handler) {
-                $tick_handler($this);
             }
         }
     }
