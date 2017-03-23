@@ -1,9 +1,10 @@
 <?php namespace korchasa\Telegram\Tests\Structs;
 
+use PHPUnit\Framework\TestCase;
 use korchasa\Telegram\Structs\Update;
 use korchasa\Telegram\Unstructured;
 
-class UpdateTest extends \PHPUnit_Framework_TestCase
+class UpdateTest extends TestCase
 {
     /**
      * @dataProvider constructorProvider
@@ -24,10 +25,5 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
             ];
         });
         return $cases;
-    }
-
-    function testConstructorReply()
-    {
-
     }
 }

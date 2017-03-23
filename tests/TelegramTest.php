@@ -1,5 +1,6 @@
 <?php namespace korchasa\Telegram\Tests\Structs;
 
+use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\Middleware;
@@ -10,7 +11,7 @@ use GuzzleHttp\Exception\RequestException;
 use korchasa\Telegram\Telegram;
 use korchasa\Telegram\Structs\Update;
 
-class TelegramTest extends \PHPUnit_Framework_TestCase
+class TelegramTest extends TestCase
 {
     function testLoop()
     {

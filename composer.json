@@ -12,8 +12,9 @@
         "webmozart/assert": "^1.2"
     },
 	"require-dev": {
-		"phpunit/phpunit": "^5.3",
-        "monolog/monolog": "^1.19"
+		"phpunit/phpunit": "^6.0",
+        "monolog/monolog": "^1.19",
+        "edgedesign/phpqa": "^1.10"
 	},
 	"suggest": {
 		"monolog/monolog": "Per request logging in specified file"

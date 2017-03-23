@@ -1,5 +1,6 @@
 <?php namespace korchasa\Telegram\Tests;
 
+use PHPUnit\Framework\TestCase;
 use korchasa\Telegram\Structs\Payload\InlineButton;
 use korchasa\Telegram\Structs\Payload\InlineKeyboard;
 use korchasa\Telegram\Structs\Payload\ReplyButton;
@@ -10,7 +11,7 @@ use korchasa\Telegram\Telegram;
 use korchasa\Telegram\Structs\Update;
 use korchasa\Telegram\Structs\User;
 
-class IntegrationTest extends \PHPUnit_Framework_TestCase
+class IntegrationTest extends TestCase
 {
     /** @var Telegram */
     protected $telegram;
