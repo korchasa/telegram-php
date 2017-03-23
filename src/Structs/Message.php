@@ -12,7 +12,7 @@ class Message
     /** @var integer */
     public $date;
     /** @var string */
-    public $text;
+    public $text = '';
     /** @var Location */
     public $location;
     /** @var Message */
@@ -31,5 +31,25 @@ class Message
             $this->reply_to_message = $std->object('reply_to_message', Message::class);
             $this->chat = $std->object('chat', Chat::class);
         }
+    }
+
+    public function startWith($needles)
+    {
+        foreach ((array) $needles as $needle)
+        {
+            if ($needle != '' && strpos($this->text, $needle) === 0) return true;
+        }
+
+        return false;
+    }
+
+    public function contains($needles)
+    {
+        foreach ((array) $needles as $needle)
+        {
+            if ($needle != '' && strpos($this->text, $needle) !== false) return true;
+        }
+
+        return false;
     }
 }

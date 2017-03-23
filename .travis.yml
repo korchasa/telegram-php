@@ -3,7 +3,7 @@ language: php
 sudo: false
 
 php:
-  - '5.6'
+  - '7.0'
   - '7.1'
   - nightly
 
@@ -12,4 +12,4 @@ before_install:
 
 install: composer update --prefer-dist $COMPOSER_FLAGS
 
-script: ./vendor/bin/phpqa --analyzedDirs src,tests && phpunit --coverage-text
+script: ./vendor/bin/phpqa --analyzedDirs src,tests && ./vendor/bin/phpunit --coverage-text
