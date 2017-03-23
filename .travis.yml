@@ -12,4 +12,8 @@ before_install:
 
 install: composer update --prefer-dist $COMPOSER_FLAGS
 
+<<<<<<< HEAD
 script: ./vendor/bin/phpqa --analyzedDirs src,tests && ./vendor/bin/phpunit --coverage-text
+=======
+script: phpunit --coverage-text
+>>>>>>> e89dea459bd37ea1291944ea8ce2b8eeed31f97f
