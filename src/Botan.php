@@ -1,5 +1,7 @@
 <?php namespace korchasa\Telegram;
 
+use korchasa\Telegram\Structs\Message;
+
 /**
  * Class Botan
  *
@@ -59,7 +61,6 @@ class Botan
         if (!$response) {
             $error = true;
         }
-        dd($response);
         $responseData = json_decode($response, true);
         curl_close($ch);
 

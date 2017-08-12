@@ -14,7 +14,7 @@ class Unstructured
         return $this->get($this->payload, $key, $default);
     }
 
-    function object($key, $class)
+    public function object($key, $class)
     {
         if ($constructor_data = $this->get($this->payload, $key)) {
             return new $class(new Unstructured($constructor_data));

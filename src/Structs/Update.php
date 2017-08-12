@@ -63,7 +63,7 @@ class Update
 
     public function isReply()
     {
-        return (bool) ($this->message && $this->message->reply_to_message);
+        return (bool) $this->message && $this->message->reply_to_message;
     }
 
     public function isCallbackQuery()

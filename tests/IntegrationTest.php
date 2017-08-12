@@ -1,5 +1,7 @@
 <?php namespace korchasa\Telegram\Tests;
 
+use korchasa\Telegram\Structs\Chat;
+use korchasa\Vhs\VhsTestCase;
 use PHPUnit\Framework\TestCase;
 use korchasa\Telegram\Structs\Payload\InlineButton;
 use korchasa\Telegram\Structs\Payload\InlineKeyboard;
@@ -9,97 +11,102 @@ use korchasa\Telegram\Structs\Payload\ReplyKeyboard;
 use korchasa\Telegram\Structs\Message;
 use korchasa\Telegram\Telegram;
 use korchasa\Telegram\Structs\Update;
-use korchasa\Telegram\Structs\User;
 
 class IntegrationTest extends TestCase
 {
+    use VhsTestCase;
+
     /** @var Telegram */
     protected $telegram;
-    /** @var User */
-    protected $user;
+    /** @var Chat */
+    protected $chat;
 
     public function setUp()
     {
-        $token = getenv('TOKEN');
-        $user_id = getenv('USER_ID');
-        if (!$token || !$user_id) {
-            $this->markTestSkipped('Usage: TOKEN=12345678:SOMELETTERS USER_ID=1234567 phpunit');
-        }
-
-        $this->telegram = new Telegram($token);
-        $this->user = new User();
-        $this->user->user_id = $user_id;
-        $this->user->first_name = 'first_name';
+        $this->telegram = new Telegram('any');
+        $this->telegram->setClient($this->connectVhs($this->telegram->getClient()));
+        $this->vhsMockMode = true;
+        $this->chat = new Chat();
+        $this->chat->id = 11111111;
+        $this->chat->first_name = 'first_name';
     }
 
     public function testGetUpdates()
     {
-        $updates = $this->telegram->getUpdates();
-        static::assertGreaterThanOrEqual(1, count($updates));
-        foreach ($updates as $update) {
-            static::assertInstanceOf(Update::class, $update);
-            static::assertInternalType('integer', $update->update_id);
-            static::assertInstanceOf(Message::class, $update->message);
-        }
-        $this->user = $updates[0]->message->from;
+        $this->assertVhs(function () {
+            $updates = $this->telegram->getUpdates();
+            static::assertGreaterThanOrEqual(1, count($updates));
+            foreach ($updates as $update) {
+                static::assertInstanceOf(Update::class, $update);
+                static::assertInternalType('integer', $update->update_id);
+                static::assertInstanceOf(Message::class, $update->message);
+            }
+        });
     }
 
     /**
      * @throws \GuzzleHttp\Exception\ClientException
      */
-    public function testSendMessage_JustText()
+    public function testSendMessageJustText()
     {
-        $this->telegram->sendMessage(
-            $this->user,
-            'just text'
-        );
+        $this->assertVhs(function () {
+            $this->assertNotNull($this->telegram->sendMessage(
+                $this->chat,
+                'just text'
+            ));
+        });
     }
 
     /**
      * @throws \GuzzleHttp\Exception\ClientException
      */
-    public function testSendMessage_CommonKeyboard()
+    public function testSendMessageCommonKeyboard()
     {
-        $this->telegram->sendMessage(
-            $this->user,
-            'reply keyboard',
-            new ReplyKeyboard([
+        $this->assertVhs(function () {
+            $this->assertNotNull($this->telegram->sendMessage(
+                $this->chat,
+                'reply keyboard',
+                new ReplyKeyboard([
                     [ 'foo', 'bar' ],
                     [
                         new ReplyButton('request contact', true),
                         new ReplyButton('request location', false, true),
                     ],
-                ]
-            )
-        );
+                ])
+            ));
+        });
     }
 
     /**
      * @throws \GuzzleHttp\Exception\ClientException
      */
-    public function testSendMessage_HideKeyboard()
+    public function testSendMessageHideKeyboard()
     {
-        $this->telegram->sendMessage(
-            $this->user,
-            'hide reply keyboard',
-            new HideKeyboard()
-        );
+        $this->assertVhs(function () {
+            $this->assertNotNull($this->telegram->sendMessage(
+                $this->chat,
+                'hide reply keyboard',
+                new HideKeyboard()
+            ));
+        });
     }
 
     /**
      * @throws \GuzzleHttp\Exception\ClientException
      */
-    public function testSendMessage_InlineKeyboard()
+    public function testSendMessageInlineKeyboard()
     {
-        $this->telegram->sendMessage(
-            $this->user,
-            'inline keyboard',
-            new InlineKeyboard([
-                [
-                    new InlineButton('url', null, 'https://google.com/'),
-                    new InlineButton('callback_data', 'foo'),
-                ]
-            ])
-        );
+        $this->assertVhs(function () {
+            $this->assertNotNull($this->telegram->sendMessage(
+                $this->chat,
+                'inline keyboard',
+                new InlineKeyboard([
+                    [
+                        new InlineButton('url', null, 'https://google.com/'),
+                        new InlineButton('callback_data', 'foo'),
+                    ]
+                ])
+            ));
+        });
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace korchasa\Telegram\Message;
+<?php namespace korchasa\Telegram\Structs;
 
 class Location
 {

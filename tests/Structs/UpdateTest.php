@@ -9,17 +9,17 @@ class UpdateTest extends TestCase
     /**
      * @dataProvider constructorProvider
      */
-    function testConstructorPositive($json)
+    public function testConstructorPositive($json)
     {
         $update = new Update(new Unstructured($json));
         $this->assertNotNull($update);
         $this->assertInternalType('object', $update);
     }
 
-    function constructorProvider()
+    public function constructorProvider()
     {
         $cases = array_fill_keys(glob(__DIR__.'/fixtures/*.json'), null);
-        array_walk($cases, function(&$value, $file) {
+        array_walk($cases, function (&$value, $file) {
             $value = [
                 file_get_contents($file)
             ];

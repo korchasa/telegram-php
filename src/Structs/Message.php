@@ -35,9 +35,10 @@ class Message
 
     public function startWith($needles)
     {
-        foreach ((array) $needles as $needle)
-        {
-            if ($needle != '' && strpos($this->text, $needle) === 0) return true;
+        foreach ((array) $needles as $needle) {
+            if ($needle != '' && strpos($this->text, $needle) === 0) {
+                return true;
+            }
         }
 
         return false;
@@ -45,9 +46,10 @@ class Message
 
     public function contains($needles)
     {
-        foreach ((array) $needles as $needle)
-        {
-            if ($needle != '' && strpos($this->text, $needle) !== false) return true;
+        foreach ((array) $needles as $needle) {
+            if ($needle != '' && strpos($this->text, $needle) !== false) {
+                return true;
+            }
         }
 
         return false;

@@ -1,5 +1,7 @@
 <?php namespace korchasa\Telegram;
 
+use InvalidArgumentException;
+use korchasa\Telegram\Structs\Message;
 use Webmozart\Assert\Assert;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -60,13 +62,13 @@ class Telegram
     }
 
     /**
-     * @param null $offset
-     * @param null $limit
+     * @param integer|null $offset
+     * @param integer|null $limit
      * @param int  $timeout
      *
      * @return Update[]
      */
-    public function getUpdates($offset = null, $limit = null, $timeout = 10)
+    public function getUpdates(int $offset = null, int $limit = null, int $timeout = 10)
     {
         $response = $this->request(
             'getUpdates',
@@ -95,7 +97,7 @@ class Telegram
             'update_id' => 0
         ];
 
-        while(0 !== $iterations--) {
+        while (0 !== $iterations--) {
             foreach ($this->getUpdates($update->update_id + 1) as $update) {
                 $update->telegram = $this;
                 $update_handler($update);
@@ -115,7 +117,7 @@ class Telegram
      * @throws \GuzzleHttp\Exception\ClientException
      */
     public function sendMessage(
-        Chat $chat,
+        $chatOrUser,
         $text,
         AbstractPayload $reply_markup = null,
         $reply_to_message_id = null,
@@ -123,11 +125,11 @@ class Telegram
         $parse_mode = 'html',
         $disable_notifications = true
     ) {
-        Assert::notNull($chat);
-        $this->last_message = $text;
+        Assert::notNull($chatOrUser);
+        $this->last_message = new Message(new Unstructured(['text' => $text]));
         try {
             $params = [
-                'chat_id'                  => is_object($chat) ? $chat->id : $chat,
+                'chat_id'                  => is_object($chatOrUser) ? $chatOrUser->id : $chatOrUser,
                 'text'                     => $text,
                 'disable_web_page_preview' => $disable_web_page_preview,
                 'reply_to_message_id'      => $reply_to_message_id,
@@ -150,14 +152,12 @@ class Telegram
     }
 
     /**
-     * @param User                                                  $receiver
-     * @param                                                       $latitude
-     * @param                                                       $longitude
-     * @param AbstractPayload                                       $reply_markup
-     * @param integer                                               $reply_to_message_id
-     *
+     * @param Chat $chat
+     * @param $latitude
+     * @param $longitude
+     * @param AbstractPayload $reply_markup
+     * @param integer $reply_to_message_id
      * @return mixed
-     * @throws \GuzzleHttp\Exception\ClientException
      */
     public function sendLocation(
         Chat $chat,
@@ -256,6 +256,22 @@ class Telegram
             'handler' => $handler,
             'http_errors' => false,
         ), $guzzle_options));
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param Client $client
+     */
+    public function setClient(Client $client)
+    {
+        $this->client = $client;
     }
 
     protected function sendByPostFormParams($uri, array $params = [], array $options = [])

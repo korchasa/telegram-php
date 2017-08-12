@@ -1,4 +1,4 @@
-<?php namespace korchasa\Telegram\Tests\Structs;
+<?php namespace korchasa\Telegram\Tests;
 
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Client;
@@ -13,7 +13,7 @@ use korchasa\Telegram\Structs\Update;
 
 class TelegramTest extends TestCase
 {
-    function testLoop()
+    public function testLoop()
     {
         $telegram = $this->telegram([
             $this->responseWithOneUpdate(1),
@@ -23,7 +23,7 @@ class TelegramTest extends TestCase
         ]);
 
         $updates_ids = [];
-        $telegram->loop(function($update) use(&$updates_ids) {
+        $telegram->loop(function ($update) use (&$updates_ids) {
             $this->assertInstanceOf(Update::class, $update);
             $this->assertNotNull($update->telegram);
             $updates_ids[] = $update->update_id;

@@ -1,0 +1,43 @@
+{
+    "request": {
+        "uri": "https:\/\/api.telegram.org\/***\/getUpdates",
+        "method": "POST",
+        "body_format": "json",
+        "body": {
+            "offset": null,
+            "limit": null,
+            "timeout": 10
+        }
+    },
+    "response": {
+        "status": 200,
+        "body_format": "json",
+        "body": {
+            "ok": true,
+            "result": [
+                {
+                    "update_id": 584988231,
+                    "message": {
+                        "message_id": 260,
+                        "from": {
+                            "id": 1115100,
+                            "first_name": "Станислав",
+                            "last_name": "Корчагин",
+                            "username": "korchasa",
+                            "language_code": "ru-RU"
+                        },
+                        "chat": {
+                            "id": 1115100,
+                            "first_name": "Станислав",
+                            "last_name": "Корчагин",
+                            "username": "korchasa",
+                            "type": "private"
+                        },
+                        "date": 1502560744,
+                        "text": "some text"
+                    }
+                }
+            ]
+        }
+    }
+}

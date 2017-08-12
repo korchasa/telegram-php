@@ -1,0 +1,53 @@
+{
+    "request": {
+        "uri": "https:\/\/api.telegram.org\/***\/sendMessage",
+        "method": "POST",
+        "body_format": "json",
+        "body": {
+            "chat_id": 1115100,
+            "text": "inline keyboard",
+            "disable_web_page_preview": false,
+            "reply_to_message_id": null,
+            "parse_mode": "html",
+            "disable_notifications": true,
+            "reply_markup": {
+                "inline_keyboard": [
+                    [
+                        {
+                            "text": "url",
+                            "url": "https:\/\/google.com\/"
+                        },
+                        {
+                            "text": "callback_data",
+                            "callback_data": "foo"
+                        }
+                    ]
+                ]
+            }
+        }
+    },
+    "response": {
+        "status": 200,
+        "body_format": "json",
+        "body": {
+            "ok": true,
+            "result": {
+                "message_id": 348,
+                "from": {
+                    "id": 152471329,
+                    "first_name": "Автобот",
+                    "username": "FooBar42Bot"
+                },
+                "chat": {
+                    "id": 1115100,
+                    "first_name": "Станислав",
+                    "last_name": "Корчагин",
+                    "username": "korchasa",
+                    "type": "private"
+                },
+                "date": 1502569585,
+                "text": "inline keyboard"
+            }
+        }
+    }
+}
