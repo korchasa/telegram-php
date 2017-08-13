@@ -21,7 +21,7 @@
 		"phpstan/phpstan": "^0.8.0",
 		"roave/security-advisories": "dev-master",
 		"squizlabs/php_codesniffer": "^3.0",
-		"korchasa/php-vhs": "dev-master"
+		"korchasa/php-vhs": "^0.1.0@beta"
 	},
 	"suggest": {
 		"monolog/monolog": "Per request logging in specified file"
