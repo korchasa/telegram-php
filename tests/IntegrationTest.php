@@ -25,7 +25,6 @@ class IntegrationTest extends TestCase
     {
         $this->telegram = new Telegram('any');
         $this->telegram->setClient($this->connectVhs($this->telegram->getClient()));
-        $this->vhsMockMode = true;
         $this->chat = new Chat();
         $this->chat->id = 11111111;
         $this->chat->first_name = 'first_name';
