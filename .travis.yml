@@ -12,14 +12,9 @@ php:
   - '7.2'
   - nightly
 
-env:
-  matrix:
-    - PREFER="--prefer-lowest --prefer-stable"
-    - PREFER=""
-
 before_install:
   - composer self-update
 
-install: composer update --prefer-dist $PREFER $COMPOSER_FLAGS
+install: composer update --prefer-dist $COMPOSER_FLAGS
 
 script: composer check
