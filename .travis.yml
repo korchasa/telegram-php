@@ -10,11 +10,23 @@ php:
   - '7.0'
   - '7.1'
   - '7.2'
+  - '7.3'
   - nightly
 
-before_install:
-  - composer self-update
+env:
+  matrix:
+    - dependencies=lowest
+    - dependencies=highest
 
-install: composer update --prefer-dist $COMPOSER_FLAGS
+matrix:
+  allow_failures:
+      - php: 'nightly'
+        env: dependencies=lowest
+
+install:
+  - composer self-update
+  - if [ -z "$dependencies" ]; then composer install; fi;
+  - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest -n; fi;
+  - if [ "$dependencies" = "highest" ]; then composer update -n; fi;
 
 script: composer check
