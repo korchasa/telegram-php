@@ -21,12 +21,11 @@ env:
 matrix:
   allow_failures:
       - php: 'nightly'
-        env: dependencies=lowest
 
 install:
   - composer self-update
-  - if [ -z "$dependencies" ]; then composer install; fi;
-  - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest -n; fi;
-  - if [ "$dependencies" = "highest" ]; then composer update -n; fi;
+  - if [ -z "$dependencies" ]; then composer install -v; fi;
+  - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest -nv; fi;
+  - if [ "$dependencies" = "highest" ]; then composer update -nv; fi;
 
 script: composer check
