@@ -23,10 +23,10 @@ class IntegrationTest extends TestCase
 
     public function setUp()
     {
-        $this->telegram = new Telegram('any');
-        $this->telegram->setClient($this->connectVhs($this->telegram->getClient()));
+        $this->telegram = new Telegram(getenv("BOT_TOKEN") ?: 'any');
+        $this->telegram->setClient($this->connectVhs($this->telegram->getClient(), true));
         $this->chat = new Chat();
-        $this->chat->id = 11111111;
+        $this->chat->id = getenv("USER_ID") ?: 111111111111;
         $this->chat->first_name = 'first_name';
     }
 

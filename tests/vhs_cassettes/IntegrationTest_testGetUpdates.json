@@ -1,43 +1,82 @@
-{
-    "request": {
-        "uri": "https:\/\/api.telegram.org\/***\/getUpdates",
-        "method": "POST",
-        "body_format": "json",
-        "body": {
-            "offset": null,
-            "limit": null,
-            "timeout": 10
-        }
-    },
-    "response": {
-        "status": 200,
-        "body_format": "json",
-        "body": {
-            "ok": true,
-            "result": [
-                {
-                    "update_id": 584988231,
-                    "message": {
-                        "message_id": 260,
-                        "from": {
-                            "id": 1115100,
-                            "first_name": "Станислав",
-                            "last_name": "Корчагин",
-                            "username": "korchasa",
-                            "language_code": "ru-RU"
-                        },
-                        "chat": {
-                            "id": 1115100,
-                            "first_name": "Станислав",
-                            "last_name": "Корчагин",
-                            "username": "korchasa",
-                            "type": "private"
-                        },
-                        "date": 1502560744,
-                        "text": "some text"
+[
+    {
+        "request": {
+            "uri": "https:\/\/api.telegram.org\/bot***\/getUpdates",
+            "method": "POST",
+            "headers": {
+                "User-Agent": [
+                    "GuzzleHttp\/6.3.3 curl\/7.65.1 PHP\/7.3.6"
+                ],
+                "Content-Type": [
+                    "application\/x-www-form-urlencoded"
+                ],
+                "Host": [
+                    "api.telegram.org"
+                ]
+            },
+            "body": "timeout=10",
+            "body_format": "raw"
+        },
+        "response": {
+            "status": 200,
+            "headers": {
+                "Server": [
+                    "nginx\/1.16.1"
+                ],
+                "Date": [
+                    "Mon, 23 Sep 2019 00:26:39 GMT"
+                ],
+                "Content-Type": [
+                    "application\/json"
+                ],
+                "Content-Length": [
+                    "351"
+                ],
+                "Connection": [
+                    "keep-alive"
+                ],
+                "Strict-Transport-Security": [
+                    "max-age=31536000; includeSubDomains; preload"
+                ],
+                "Access-Control-Allow-Origin": [
+                    "*"
+                ],
+                "Access-Control-Allow-Methods": [
+                    "GET, POST, OPTIONS"
+                ],
+                "Access-Control-Expose-Headers": [
+                    "Content-Length,Content-Type,Date,Server,Connection"
+                ]
+            },
+            "body": {
+                "ok": true,
+                "result": [
+                    {
+                        "update_id": 332016315,
+                        "message": {
+                            "message_id": 1312,
+                            "from": {
+                                "id": 1115100,
+                                "is_bot": false,
+                                "first_name": "Stanislav",
+                                "last_name": "Korchagin",
+                                "username": "korchasa",
+                                "language_code": "ru"
+                            },
+                            "chat": {
+                                "id": 1115100,
+                                "first_name": "Stanislav",
+                                "last_name": "Korchagin",
+                                "username": "korchasa",
+                                "type": "private"
+                            },
+                            "date": 1569198396,
+                            "text": "sdasdas"
+                        }
                     }
-                }
-            ]
+                ]
+            },
+            "body_format": "json"
         }
     }
-}
+]

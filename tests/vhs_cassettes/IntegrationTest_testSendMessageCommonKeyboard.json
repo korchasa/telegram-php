@@ -1,62 +1,75 @@
-{
-    "request": {
-        "uri": "https:\/\/api.telegram.org\/***\/sendMessage",
-        "method": "POST",
-        "body_format": "json",
-        "body": {
-            "chat_id": 1115100,
-            "text": "reply keyboard",
-            "disable_web_page_preview": false,
-            "reply_to_message_id": null,
-            "parse_mode": "html",
-            "disable_notifications": true,
-            "reply_markup": {
-                "keyboard": [
-                    [
-                        "foo",
-                        "bar"
-                    ],
-                    [
-                        {
-                            "text": "request contact",
-                            "request_contact": true,
-                            "request_location": false
-                        },
-                        {
-                            "text": "request location",
-                            "request_contact": false,
-                            "request_location": true
-                        }
-                    ]
+[
+    {
+        "request": {
+            "uri": "https:\/\/api.telegram.org\/bot***\/getUpdates",
+            "method": "POST",
+            "headers": {
+                "User-Agent": [
+                    "GuzzleHttp\/6.3.3 curl\/7.65.1 PHP\/7.3.6"
                 ],
-                "resize_keyboard": true,
-                "one_time_keyboard": true,
-                "selective": false
-            }
-        }
-    },
-    "response": {
-        "status": 200,
-        "body_format": "json",
-        "body": {
-            "ok": true,
-            "result": {
-                "message_id": 346,
-                "from": {
-                    "id": 152471329,
-                    "first_name": "Автобот",
-                    "username": "FooBar42Bot"
-                },
-                "chat": {
-                    "id": 1115100,
-                    "first_name": "Станислав",
-                    "last_name": "Корчагин",
-                    "username": "korchasa",
-                    "type": "private"
-                },
-                "date": 1502569585,
-                "text": "reply keyboard"
-            }
+                "Content-Type": [
+                    "application\/x-www-form-urlencoded"
+                ],
+                "Host": [
+                    "api.telegram.org"
+                ]
+            },
+            "body": "chat_id=1115100&text=reply+keyboard&disable_web_page_preview=0&parse_mode=html&disable_notifications=1&reply_markup%5Bkeyboard%5D%5B0%5D%5B0%5D=foo&reply_markup%5Bkeyboard%5D%5B0%5D%5B1%5D=bar&reply_markup%5Bkeyboard%5D%5B1%5D%5B0%5D%5Btext%5D=request+contact&reply_markup%5Bkeyboard%5D%5B1%5D%5B0%5D%5Brequest_contact%5D=1&reply_markup%5Bkeyboard%5D%5B1%5D%5B0%5D%5Brequest_location%5D=0&reply_markup%5Bkeyboard%5D%5B1%5D%5B1%5D%5Btext%5D=request+location&reply_markup%5Bkeyboard%5D%5B1%5D%5B1%5D%5Brequest_contact%5D=0&reply_markup%5Bkeyboard%5D%5B1%5D%5B1%5D%5Brequest_location%5D=1&reply_markup%5Bresize_keyboard%5D=1&reply_markup%5Bone_time_keyboard%5D=1&reply_markup%5Bselective%5D=0",
+            "body_format": "raw"
+        },
+        "response": {
+            "status": 200,
+            "headers": {
+                "Server": [
+                    "nginx\/1.16.1"
+                ],
+                "Date": [
+                    "Mon, 23 Sep 2019 00:26:12 GMT"
+                ],
+                "Content-Type": [
+                    "application\/json"
+                ],
+                "Content-Length": [
+                    "281"
+                ],
+                "Connection": [
+                    "keep-alive"
+                ],
+                "Strict-Transport-Security": [
+                    "max-age=31536000; includeSubDomains; preload"
+                ],
+                "Access-Control-Allow-Origin": [
+                    "*"
+                ],
+                "Access-Control-Allow-Methods": [
+                    "GET, POST, OPTIONS"
+                ],
+                "Access-Control-Expose-Headers": [
+                    "Content-Length,Content-Type,Date,Server,Connection"
+                ]
+            },
+            "body": {
+                "ok": true,
+                "result": {
+                    "message_id": 1309,
+                    "from": {
+                        "id": 152471329,
+                        "is_bot": true,
+                        "first_name": "AwesomeBot",
+                        "username": "FooBar42Bot"
+                    },
+                    "chat": {
+                        "id": 1115100,
+                        "first_name": "Stanislav",
+                        "last_name": "Korchagin",
+                        "username": "korchasa",
+                        "type": "private"
+                    },
+                    "date": 1569198372,
+                    "text": "reply keyboard"
+                }
+            },
+            "body_format": "json"
         }
     }
-}
+]

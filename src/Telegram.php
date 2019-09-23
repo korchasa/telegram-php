@@ -1,7 +1,13 @@
 <?php namespace korchasa\Telegram;
 
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
 use InvalidArgumentException;
 use korchasa\Telegram\Structs\Message;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use Webmozart\Assert\Assert;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
@@ -229,7 +235,7 @@ class Telegram
 
     public function request($uri, array $params = [], array $options = [])
     {
-        return $this->sendByPostWithJsonInBody($uri, $params, $options);
+        return $this->sendByPostFormParams($uri, $params, $options);
     }
 
     /**
@@ -241,16 +247,18 @@ class Telegram
      */
     protected function createLoggable($log_file, array $guzzle_options = [])
     {
-        $writer = new \Monolog\Handler\StreamHandler($log_file);
-        $writer->setFormatter(new \Monolog\Formatter\LineFormatter(null, null, true));
-        $logger = new \Monolog\Logger('korchasa\Telegram');
+        $writer = new StreamHandler($log_file);
+        $writer->setFormatter(new LineFormatter(null, null, true));
+        $logger = new Logger('korchasa\Telegram');
         $logger->pushHandler($writer);
 
-        $handler = \GuzzleHttp\HandlerStack::create();
-        $handler->push(\GuzzleHttp\Middleware::log(
-            $logger,
-            new \GuzzleHttp\MessageFormatter(\GuzzleHttp\MessageFormatter::DEBUG)
-        ));
+        $handler = HandlerStack::create();
+        $handler->push(
+            Middleware::log(
+                $logger,
+                new MessageFormatter(MessageFormatter::DEBUG)
+            )
+        );
 
         return new Client(array_merge(array(
             'handler' => $handler,
